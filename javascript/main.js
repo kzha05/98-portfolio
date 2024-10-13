@@ -6,8 +6,8 @@ let lastIcon = null;
 let currentDeleteIcon = null;
 
 // null is random position
-createWindow('posts', 'img/icons/template_empty-2.png', '', 'other.html', '45vw', '43vh');
-createWindow('Welcome!', 'img/icons/msn3-5.png', '', 'welcome.html', '18vw', '11vh');
+// createWindow('posts', 'img/icons/template_empty-2.png', '', 'other.html', '45vw', '43vh');
+createWindow('Welcome!', 'img/icons/msn3-5.png', '', 'welcome.html', '25vw', '25vh');
 
 function handleIconClick(event, icon) {
 	return () => {
