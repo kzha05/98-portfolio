@@ -1,0 +1,86 @@
+<style>
+	:root {
+		--windows-black: #000000;
+		--windows-dark-grey: #797979;
+		--windows-light-grey: #c3c3c3;
+		--windows-white: #fdffff;
+		--windows-blue: #010081;
+		--windows-teal: #008080;
+	}
+
+	.trash-body {
+		width: 100%;
+		height: 100%;
+		max-height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		overflow-y: scroll;
+	}
+
+	.icons-wrapper {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1rem;
+	}
+
+	.icon-wrapper-trash {
+		padding: 1rem;
+		aspect-ratio: 1/1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background: var(--windows-light-grey);
+		border-right-color: var(--windows-black);
+		border-bottom-color: var(--windows-black);
+		border-left-color: var(--windows-white);
+		border-top-color: var(--windows-white);
+		border-style: solid;
+		border-width: 1px;
+	}
+</style>
+<script defer>
+	document.querySelectorAll('.trash-body').forEach((instance) => {
+		const currentIcons = document.getElementById('desktop').querySelectorAll('.icon-wrapper');
+		let trashedIcons = [];
+
+		instance.querySelector('.icons-wrapper').innerHTML = '';
+
+		currentIcons.forEach(icon => {
+			if (icon.style.display === 'none') {
+				trashedIcons.push(icon);
+			}
+		});
+
+		trashedIcons.forEach(icon => {
+			const wrapper = document.createElement('div');
+			wrapper.classList.add('icon-wrapper-trash');
+			wrapper.addEventListener('click', () => {
+				icon.style.display = 'flex';
+				wrapper.remove();
+			});
+
+			wrapper.innerHTML = `
+				<div class="overlay"></div>
+				<img class="icon" alt="${icon.querySelector('span').textContent}" src="${icon.querySelector('img').src}" />
+				<span>${icon.querySelector('span').textContent}</span>
+			`;
+
+			instance.querySelector('.icons-wrapper').appendChild(wrapper);
+		});
+	});
+</script>
+<body>
+	<div class="trash-body">
+<!--		<img src="https://media.giphy.com/media/xT0xehfxlptGeeIvEk/giphy.gif?cid=790b76110cykhrnbykrgoeuxrhwk7m5r7hmqqo1bez41pwl2&ep=v1_gifs_search&rid=giphy.gif&ct=g">-->
+		<h1>Trashcan</h1>
+		<p>Here you can find all the files that I have deleted.</p>
+		<p>Don't worry, they are not really deleted, they are just moved here.</p>
+		<p>Click on the file to restore it.</p>
+		<div class="icons-wrapper">
+			<!-- Icons will be inserted here -->
+		</div>
+	</div>
+</body>
+

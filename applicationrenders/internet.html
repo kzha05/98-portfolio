@@ -1,0 +1,127 @@
+<style>
+	.internet-body {
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.google-logo {
+		width: 30%;
+		object-fit: contain;
+		cursor: pointer;
+	}
+
+	.small-google-logo {
+		height: 5%;
+	}
+
+	.search-bar {
+		width: 80%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background: #eee;
+		gap: 0.25rem;
+		padding: 2rem;
+	}
+
+	.search-bar select {
+		width: 60%;
+		padding-block: 0.25rem;
+	}
+	iframe {
+		aspect-ratio: 16/9;
+		max-height: 82%;
+	}
+</style>
+
+<script defer>
+	document.querySelectorAll('.internet-body').forEach((instance) => {
+		const iframeElement = instance.querySelector('iframe');
+		const searchArea = instance.querySelector('.search-bar');
+		const googleLogo = instance.querySelector('.google-logo');
+		const search = instance.querySelector('select');
+		const lucky = instance.querySelector('.lucky');
+		const disclaimer = instance.querySelector('span');
+		const websitelink = instance.querySelector('a');
+		const googleCopyRight = instance.querySelector('p');
+
+		let iframe = false;
+		let url = null;
+
+		const options = search.querySelectorAll('option');
+		const urls = Array.from(options).map((option) => option.value).filter((url) => url !== '');
+
+		checkRender();
+
+		function checkRender() {
+			if (iframe && url) {
+				searchArea.style.display = 'none';
+				googleLogo.classList.add('small-google-logo');
+				googleCopyRight.style.display = 'none';
+				websitelink.href = url;
+				websitelink.textContent = `Go to ${url}`;
+				disclaimer.textContent = 'Disclaimer, element dimensions might not be correct, if you want to see the full website, click the link above.';
+				iframeElement.style.display = 'block';
+				iframeElement.src = url;
+			} else {
+				iframeElement.style.display = 'none';
+				googleLogo.classList.remove('small-google-logo');
+				googleCopyRight.style.display = 'block';
+				websitelink.href = '';
+				websitelink.textContent = '';
+				searchArea.style.display = 'flex';
+			}
+		}
+
+		lucky.addEventListener('click', () => {
+			iframe = true;
+			url = urls[Math.floor(Math.random() * urls.length)];
+			checkRender();
+		});
+
+		googleLogo.addEventListener('click', () => {
+			iframe = false;
+			url = null;
+			checkRender();
+		});
+
+		search.addEventListener('change', () => {
+			if (search.value === '') {
+				return;
+			}
+
+			iframe = true;
+			url = search.value;
+			checkRender();
+		});
+	});
+</script>
+
+<div class="internet-body">
+	<img class="google-logo" src="img/google.webp" alt="Google" />
+
+	<iframe src="" width="100%" height="100%"></iframe>
+
+	<div class="search-bar">
+		<label>Go through my projects using Google!</label>
+		<select name="search">
+			<option value=""></option>
+			<option value="https://kzha.nl/bever-website/">Bever website</option>
+			<option value="https://34486.hosts1.ma-cloud.nl/font-showcase/">Font showcase</option>
+			<option value="https://34486.hosts1.ma-cloud.nl/calender/">Calender</option>
+			<option value="https://34486.hosts1.ma-cloud.nl/social-media/">Social media</option>
+			<option value="https://kzha.nl/newjeans-blog/">Newjeans blog</option>
+			<option value="https://kzha.nl/mitski/">Mitski</option>
+			<option value="https://kzha.nl/banner/">Banner</option>
+		</select>
+		<button class="lucky">I'm feeling lucky</button>
+	</div>
+
+	<p>Copyright ©1998 Google Inc.</p>
+	<a target="_blank">Go to ...</a>
+	<span style="font-size: 0.875rem"></span>
+</div>
